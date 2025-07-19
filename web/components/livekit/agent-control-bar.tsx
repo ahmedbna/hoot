@@ -123,7 +123,6 @@ export function AgentControlBar({
           {visibleControls.microphone && (
             <div className="flex items-center gap-0">
               <TrackToggle
-                variant="primary"
                 source={Track.Source.Microphone}
                 pressed={microphoneToggle.enabled}
                 disabled={microphoneToggle.pending}
@@ -165,7 +164,7 @@ export function AgentControlBar({
           {/* {capabilities.supportsVideoInput && visibleControls.camera && (
             <div className="flex items-center gap-0">
               <TrackToggle
-                variant="primary"
+                
                 source={Track.Source.Camera}
                 pressed={cameraToggle.enabled}
                 pending={cameraToggle.pending}
@@ -218,12 +217,7 @@ export function AgentControlBar({
         </div>
 
         {visibleControls.leave && (
-          <Button
-            variant="destructive"
-            onClick={onLeave}
-            disabled={isDisconnecting}
-            className="font-mono"
-          >
+          <Button variant="destructive" onClick={onLeave} disabled={isDisconnecting} className="">
             <PhoneDisconnectIcon weight="bold" />
             <span className="hidden md:inline">END CALL</span>
             <span className="inline md:hidden">END</span>

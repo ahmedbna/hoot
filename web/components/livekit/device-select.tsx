@@ -64,13 +64,11 @@ export function DeviceSelect({
   return (
     <Select value={activeDeviceId} onValueChange={setActiveMediaDevice}>
       <SelectTrigger className={cn(selectVariants({ size }), props.className)}>
-        {size !== 'sm' && (
-          <SelectValue className="font-mono text-sm" placeholder={`Select a ${kind}`} />
-        )}
+        {size !== 'sm' && <SelectValue className="text-sm" placeholder={`Select a ${kind}`} />}
       </SelectTrigger>
       <SelectContent>
         {devices.map((device) => (
-          <SelectItem key={device.deviceId} value={device.deviceId} className="font-mono text-xs">
+          <SelectItem key={device.deviceId} value={device.deviceId} className="text-xs">
             {device.label}
           </SelectItem>
         ))}

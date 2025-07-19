@@ -39,7 +39,7 @@ export const ChatEntry = ({
           {!hideName && <strong className="mt-2">{name}</strong>}
 
           {!hideTimestamp && (
-            <span className="align-self-end ml-auto font-mono text-xs opacity-0 transition-opacity ease-linear group-hover:opacity-100">
+            <span className="align-self-end ml-auto text-xs opacity-0 transition-opacity ease-linear group-hover:opacity-100">
               {hasBeenEdited && '*'}
               {time.toLocaleTimeString(locale, { timeStyle: 'short' })}
             </span>

@@ -35,7 +35,7 @@ export const Welcome = ({
       <p className="text-fg1 max-w-prose pt-1 leading-6 font-medium">
         Chat live with your voice AI agent
       </p>
-      <Button variant="primary" size="lg" onClick={onStartCall} className="mt-6 w-64 font-mono">
+      <Button size="lg" onClick={onStartCall} className="mt-6 w-64">
         {startButtonText}
       </Button>
     </div>

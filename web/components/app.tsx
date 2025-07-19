@@ -6,7 +6,6 @@ import { motion } from 'motion/react';
 import { RoomAudioRenderer, RoomContext, StartAudio } from '@livekit/components-react';
 import { toastAlert } from '@/components/alert-toast';
 import { SessionView } from '@/components/session-view';
-import { Toaster } from '@/components/ui/sonner';
 import { Welcome } from '@/components/welcome';
 import useConnectionDetails from '@/hooks/useConnectionDetails';
 import type { AppConfig } from '@/lib/types';
@@ -95,8 +94,6 @@ export function App({ appConfig }: AppProps) {
           }}
         />
       </RoomContext.Provider>
-
-      <Toaster />
     </>
   );
 }
