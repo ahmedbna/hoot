@@ -5,7 +5,7 @@ import { useCallback } from 'react';
 import { Track } from 'livekit-client';
 import { BarVisualizer, useRemoteParticipants } from '@livekit/components-react';
 import { ChatTextIcon, PhoneDisconnectIcon } from '@phosphor-icons/react/dist/ssr';
-import { ChatInput } from '@/components/livekit/chat/chat-input';
+import { ChatInput } from '@/components/chat/chat-input';
 import { Button } from '@/components/ui/button';
 import { Toggle } from '@/components/ui/toggle';
 import { AppConfig } from '@/lib/types';

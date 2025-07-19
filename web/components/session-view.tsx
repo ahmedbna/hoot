@@ -8,9 +8,9 @@ import {
   useRoomContext,
   useVoiceAssistant,
 } from '@livekit/components-react';
+import { ChatEntry } from '@/components/chat/chat-entry';
+import { ChatMessageView } from '@/components/chat/chat-message-view';
 import { AgentControlBar } from '@/components/livekit/agent-control-bar';
-import { ChatEntry } from '@/components/livekit/chat/chat-entry';
-import { ChatMessageView } from '@/components/livekit/chat/chat-message-view';
 import { MediaTiles } from '@/components/livekit/media-tiles';
 import { toastAlert } from '@/components/ui/alert-toast';
 import useChatAndTranscription from '@/hooks/useChatAndTranscription';
