@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { ConnectionDetails } from '@/app/api/connection-details/route';
 
-export default function useConnectionDetails() {
+export function useConnectionDetails() {
   // Generate room connection details, including:
   //   - A random Room name
   //   - A random Participant name

@@ -22,18 +22,18 @@ function isAgentAvailable(agentState: AgentState) {
   return agentState == 'listening' || agentState == 'thinking' || agentState == 'speaking';
 }
 
-interface SessionViewProps {
+interface Props {
   appConfig: AppConfig;
   disabled: boolean;
   sessionStarted: boolean;
 }
 
-export const SessionView = ({
+export const Room = ({
   appConfig,
   disabled,
   sessionStarted,
   ref,
-}: React.ComponentProps<'div'> & SessionViewProps) => {
+}: React.ComponentProps<'div'> & Props) => {
   const { state: agentState } = useVoiceAssistant();
   const [chatOpen, setChatOpen] = useState(false);
   const { messages, send } = useChatAndTranscription();

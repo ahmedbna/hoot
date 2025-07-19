@@ -1,24 +1,20 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { Room, RoomEvent } from 'livekit-client';
-import { motion } from 'motion/react';
+import { Room as LKRoom, RoomEvent } from 'livekit-client';
 import { RoomAudioRenderer, RoomContext, StartAudio } from '@livekit/components-react';
-import { SessionView } from '@/components/session-view';
+import { Room } from '@/components/room';
 import { toastAlert } from '@/components/ui/alert-toast';
 import { Welcome } from '@/components/welcome';
-import useConnectionDetails from '@/hooks/useConnectionDetails';
+import { useConnectionDetails } from '@/hooks/useConnectionDetails';
 import type { AppConfig } from '@/lib/types';
 
-const MotionWelcome = motion.create(Welcome);
-const MotionSessionView = motion.create(SessionView);
-
-interface AppProps {
+interface Props {
   appConfig: AppConfig;
 }
 
-export function App({ appConfig }: AppProps) {
-  const room = useMemo(() => new Room(), []);
+export function Home({ appConfig }: Props) {
+  const room = useMemo(() => new LKRoom(), []);
   const [sessionStarted, setSessionStarted] = useState(false);
   const { connectionDetails, refreshConnectionDetails } = useConnectionDetails();
 
@@ -27,14 +23,17 @@ export function App({ appConfig }: AppProps) {
       setSessionStarted(false);
       refreshConnectionDetails();
     };
+
     const onMediaDevicesError = (error: Error) => {
       toastAlert({
         title: 'Encountered an error with your media devices',
         description: `${error.name}: ${error.message}`,
       });
     };
+
     room.on(RoomEvent.MediaDevicesError, onMediaDevicesError);
     room.on(RoomEvent.Disconnected, onDisconnected);
+
     return () => {
       room.off(RoomEvent.Disconnected, onDisconnected);
       room.off(RoomEvent.MediaDevicesError, onMediaDevicesError);
@@ -47,6 +46,7 @@ export function App({ appConfig }: AppProps) {
         room.localParticipant.setMicrophoneEnabled(true, undefined, {
           preConnectBuffer: appConfig.isPreConnectBufferEnabled,
         }),
+
         room.connect(connectionDetails.serverUrl, connectionDetails.participantToken),
       ]).catch((error) => {
         toastAlert({
@@ -55,6 +55,7 @@ export function App({ appConfig }: AppProps) {
         });
       });
     }
+
     return () => {
       room.disconnect();
     };
@@ -64,14 +65,11 @@ export function App({ appConfig }: AppProps) {
 
   return (
     <>
-      <MotionWelcome
+      <Welcome
         key="welcome"
         startButtonText={startButtonText}
         onStartCall={() => setSessionStarted(true)}
         disabled={sessionStarted}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: sessionStarted ? 0 : 1 }}
-        transition={{ duration: 0.5, ease: 'linear', delay: sessionStarted ? 0 : 0.5 }}
       />
 
       <RoomContext.Provider value={room}>
@@ -79,19 +77,11 @@ export function App({ appConfig }: AppProps) {
 
         <StartAudio label="Start Audio" />
 
-        {/* --- */}
-        <MotionSessionView
+        <Room
           key="session-view"
           appConfig={appConfig}
           disabled={!sessionStarted}
           sessionStarted={sessionStarted}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: sessionStarted ? 1 : 0 }}
-          transition={{
-            duration: 0.5,
-            ease: 'linear',
-            delay: sessionStarted ? 0.5 : 0,
-          }}
         />
       </RoomContext.Provider>
     </>

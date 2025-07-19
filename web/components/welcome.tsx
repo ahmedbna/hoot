@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 
-interface WelcomeProps {
+interface Props {
   disabled: boolean;
   startButtonText: string;
   onStartCall: () => void;
@@ -11,7 +11,7 @@ export const Welcome = ({
   startButtonText,
   onStartCall,
   ref,
-}: React.ComponentProps<'div'> & WelcomeProps) => {
+}: React.ComponentProps<'div'> & Props) => {
   return (
     <div
       ref={ref}
