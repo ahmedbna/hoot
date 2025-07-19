@@ -1,6 +1,3 @@
-// SPDX-FileCopyrightText: 2024 LiveKit, Inc.
-//
-// SPDX-License-Identifier: Apache-2.0
 import { type JobContext, WorkerOptions, cli, defineAgent, llm, multimodal } from '@livekit/agents';
 import * as openai from '@livekit/agents-plugin-openai';
 import dotenv from 'dotenv';
@@ -16,6 +13,7 @@ export default defineAgent({
   entry: async (ctx: JobContext) => {
     await ctx.connect();
     console.log('waiting for participant');
+
     const participant = await ctx.waitForParticipant();
     console.log(`starting assistant example agent for ${participant.identity}`);
 
