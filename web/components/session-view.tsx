@@ -9,7 +9,7 @@ import {
   useVoiceAssistant,
 } from '@livekit/components-react';
 import { toastAlert } from '@/components/alert-toast';
-import { AgentControlBar } from '@/components/livekit/agent-control-bar/agent-control-bar';
+import { AgentControlBar } from '@/components/livekit/agent-control-bar';
 import { ChatEntry } from '@/components/livekit/chat/chat-entry';
 import { ChatMessageView } from '@/components/livekit/chat/chat-message-view';
 import { MediaTiles } from '@/components/livekit/media-tiles';

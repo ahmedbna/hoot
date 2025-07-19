@@ -7,7 +7,7 @@ import {
   useRoomContext,
   useTrackToggle,
 } from '@livekit/components-react';
-import { usePublishPermissions } from './use-publish-permissions';
+import { usePublishPermissions } from '@/hooks/use-publish-permissions';
 
 export interface ControlBarControls {
   microphone?: boolean;
