@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { MessageFormatter, ReceivedChatMessage } from '@livekit/components-react';
+import { useChatMessage } from '@/hooks/useChatMessage';
 import { cn } from '@/lib/utils';
-import { useChatMessage } from './hooks/utils';
 
 export interface ChatEntryProps extends React.HTMLAttributes<HTMLLIElement> {
   /** The chat massage object to display. */

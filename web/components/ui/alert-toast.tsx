@@ -3,7 +3,7 @@
 import { ReactNode } from 'react';
 import { toast as sonnerToast } from 'sonner';
 import { WarningIcon } from '@phosphor-icons/react/dist/ssr';
-import { Alert, AlertDescription, AlertTitle } from './ui/alert';
+import { Alert, AlertDescription, AlertTitle } from './alert';
 
 interface ToastProps {
   id: string | number;
