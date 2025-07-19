@@ -77,7 +77,9 @@ export function App({ appConfig }: AppProps) {
 
       <RoomContext.Provider value={room}>
         <RoomAudioRenderer />
+
         <StartAudio label="Start Audio" />
+
         {/* --- */}
         <MotionSessionView
           key="session-view"

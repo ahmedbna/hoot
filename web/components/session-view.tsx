@@ -79,11 +79,10 @@ export const SessionView = ({
     }
   }, [agentState, sessionStarted, room]);
 
-  const { supportsChatInput, supportsVideoInput, supportsScreenShare } = appConfig;
+  const { supportsChatInput } = appConfig;
+
   const capabilities = {
     supportsChatInput,
-    supportsVideoInput,
-    supportsScreenShare,
   };
 
   return (

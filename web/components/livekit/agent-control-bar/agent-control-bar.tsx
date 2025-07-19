@@ -17,7 +17,7 @@ import { UseAgentControlBarProps, useAgentControlBar } from './hooks/use-agent-c
 export interface AgentControlBarProps
   extends React.HTMLAttributes<HTMLDivElement>,
     UseAgentControlBarProps {
-  capabilities: Pick<AppConfig, 'supportsChatInput' | 'supportsVideoInput' | 'supportsScreenShare'>;
+  capabilities: Pick<AppConfig, 'supportsChatInput'>;
   onChatOpenChange?: (open: boolean) => void;
   onSendMessage?: (message: string) => Promise<void>;
   onDisconnect?: () => void;
@@ -162,7 +162,7 @@ export function AgentControlBar({
             </div>
           )}
 
-          {capabilities.supportsVideoInput && visibleControls.camera && (
+          {/* {capabilities.supportsVideoInput && visibleControls.camera && (
             <div className="flex items-center gap-0">
               <TrackToggle
                 variant="primary"
@@ -188,9 +188,9 @@ export function AgentControlBar({
                 ])}
               />
             </div>
-          )}
+          )} */}
 
-          {capabilities.supportsScreenShare && visibleControls.screenShare && (
+          {/* {capabilities.supportsScreenShare && visibleControls.screenShare && (
             <div className="flex items-center gap-0">
               <TrackToggle
                 variant="secondary"
@@ -201,7 +201,7 @@ export function AgentControlBar({
                 className="relative w-auto"
               />
             </div>
-          )}
+          )} */}
 
           {visibleControls.chat && (
             <Toggle
@@ -216,6 +216,7 @@ export function AgentControlBar({
             </Toggle>
           )}
         </div>
+
         {visibleControls.leave && (
           <Button
             variant="destructive"
