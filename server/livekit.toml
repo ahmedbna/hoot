@@ -1,0 +1,39 @@
+[project]
+name = "bna"
+version = "1.0.0"
+description = "Simple voice AI assistant built with LiveKit Agents for Python"
+subdomain = "bna-eqwmg8br"
+
+# Agent configuration section - this is what LiveKit CLI looks for
+[agent]
+# Use the existing Dockerfile for deployment
+dockerfile = "Dockerfile"
+start_command = ["uv", "run", "src/agent.py", "start"]
+
+[deploy]
+dockerfile = "Dockerfile"
+start_command = ["uv", "run", "src/agent.py", "start"]
+
+# GitHub integration for auto-deployment
+[deploy.source]
+type = "github"
+repo = "your-username/your-repo-name"
+branch = "main"
+path = "server"  # Path to your server directory
+
+[deploy.resources]
+cpu = "1000m"
+memory = "2Gi"
+
+[deploy.env]
+LIVEKIT_URL = "$LIVEKIT_URL"
+LIVEKIT_API_KEY = "$LIVEKIT_API_KEY"
+LIVEKIT_API_SECRET = "$LIVEKIT_API_SECRET"
+OPENAI_API_KEY = "$OPENAI_API_KEY"
+DEEPGRAM_API_KEY = "$DEEPGRAM_API_KEY"
+CARTESIA_API_KEY = "$CARTESIA_API_KEY"
+PYTHONUNBUFFERED = "1"
+
+[deploy.scaling]
+min_replicas = 1
+max_replicas = 5
