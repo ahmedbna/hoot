@@ -28,13 +28,17 @@ export interface UseAgentControlBarReturn {
   visibleControls: ControlBarControls;
   microphoneToggle: ReturnType<typeof useTrackToggle<Track.Source.Microphone>>;
   cameraToggle: ReturnType<typeof useTrackToggle<Track.Source.Camera>>;
-  screenShareToggle: ReturnType<typeof useTrackToggle<Track.Source.ScreenShare>>;
+  screenShareToggle: ReturnType<
+    typeof useTrackToggle<Track.Source.ScreenShare>
+  >;
   handleDisconnect: () => void;
   handleAudioDeviceChange: (deviceId: string) => void;
   handleVideoDeviceChange: (deviceId: string) => void;
 }
 
-export function useAgentControlBar(props: UseAgentControlBarProps = {}): UseAgentControlBarReturn {
+export function useAgentControlBar(
+  props: UseAgentControlBarProps = {}
+): UseAgentControlBarReturn {
   const { controls, saveUserChoices = true } = props;
   const visibleControls = {
     leave: true,
@@ -46,15 +50,18 @@ export function useAgentControlBar(props: UseAgentControlBarProps = {}): UseAgen
 
   const microphoneToggle = useTrackToggle({
     source: Track.Source.Microphone,
-    onDeviceError: (error) => props.onDeviceError?.({ source: Track.Source.Microphone, error }),
+    onDeviceError: (error) =>
+      props.onDeviceError?.({ source: Track.Source.Microphone, error }),
   });
   const cameraToggle = useTrackToggle({
     source: Track.Source.Camera,
-    onDeviceError: (error) => props.onDeviceError?.({ source: Track.Source.Camera, error }),
+    onDeviceError: (error) =>
+      props.onDeviceError?.({ source: Track.Source.Camera, error }),
   });
   const screenShareToggle = useTrackToggle({
     source: Track.Source.ScreenShare,
-    onDeviceError: (error) => props.onDeviceError?.({ source: Track.Source.ScreenShare, error }),
+    onDeviceError: (error) =>
+      props.onDeviceError?.({ source: Track.Source.ScreenShare, error }),
   });
 
   const micTrackRef = React.useMemo(() => {

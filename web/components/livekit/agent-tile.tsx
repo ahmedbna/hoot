@@ -1,4 +1,8 @@
-import { type AgentState, BarVisualizer, type TrackReference } from '@livekit/components-react';
+import {
+  type AgentState,
+  BarVisualizer,
+  type TrackReference,
+} from '@livekit/components-react';
 import { cn } from '@/lib/utils';
 
 interface AgentAudioTileProps {
@@ -20,7 +24,9 @@ export const AgentTile = ({
         state={state}
         options={{ minHeight: 5 }}
         trackRef={audioTrack}
-        className={cn('flex aspect-video w-40 items-center justify-center gap-1')}
+        className={cn(
+          'flex aspect-video w-40 items-center justify-center gap-1'
+        )}
       >
         <span
           className={cn([

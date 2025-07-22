@@ -44,7 +44,8 @@ interface RootLayoutProps {
 
 export default async function RootLayout({ children }: RootLayoutProps) {
   const hdrs = await headers();
-  const { accent, accentDark, pageTitle, pageDescription } = await getAppConfig(hdrs);
+  const { accent, accentDark, pageTitle, pageDescription } =
+    await getAppConfig(hdrs);
 
   const styles = [
     accent ? `:root { --primary: ${accent}; }` : '',
@@ -55,19 +56,22 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 
   return (
     <ConvexAuthNextjsServerProvider>
-      <html lang="en" suppressHydrationWarning className="scroll-smooth">
+      <html lang='en' suppressHydrationWarning className='scroll-smooth'>
         <head>
           {styles && <style>{styles}</style>}
           <title>{pageTitle}</title>
-          <meta name="description" content={pageDescription + '\n\nBuilt with LiveKit Agents.'} />
+          <meta
+            name='description'
+            content={pageDescription + '\n\nBuilt with LiveKit Agents.'}
+          />
           <ApplyThemeScript />
         </head>
         <body
           className={`${publicSans.variable} ${commitMono.variable} overflow-x-hidden antialiased`}
         >
           <ConvexProvider>{children}</ConvexProvider>
-          <div className="group fixed bottom-0 left-1/2 z-50 mb-2 -translate-x-1/2">
-            <ThemeToggle className="translate-y-20 transition-transform delay-150 duration-300 group-hover:translate-y-0" />
+          <div className='group fixed bottom-0 left-1/2 z-50 mb-2 -translate-x-1/2'>
+            <ThemeToggle className='translate-y-20 transition-transform delay-150 duration-300 group-hover:translate-y-0' />
           </div>
         </body>
       </html>

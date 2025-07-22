@@ -17,7 +17,7 @@ export const AvatarTile = ({
         trackRef={videoTrack}
         width={videoTrack?.publication.dimensions?.width ?? 0}
         height={videoTrack?.publication.dimensions?.height ?? 0}
-        className="rounded-md"
+        className='rounded-md'
       />
     </div>
   );

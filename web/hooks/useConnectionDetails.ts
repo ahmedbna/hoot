@@ -11,12 +11,14 @@ export default function useConnectionDetails() {
   // In real-world application, you would likely allow the user to specify their
   // own participant name, and possibly to choose from existing rooms to join.
 
-  const [connectionDetails, setConnectionDetails] = useState<ConnectionDetails | null>(null);
+  const [connectionDetails, setConnectionDetails] =
+    useState<ConnectionDetails | null>(null);
 
   const fetchConnectionDetails = useCallback(() => {
     setConnectionDetails(null);
     const url = new URL(
-      process.env.NEXT_PUBLIC_CONN_DETAILS_ENDPOINT ?? '/api/connection-details',
+      process.env.NEXT_PUBLIC_CONN_DETAILS_ENDPOINT ??
+        '/api/connection-details',
       window.location.origin
     );
     fetch(url.toString())
@@ -33,5 +35,8 @@ export default function useConnectionDetails() {
     fetchConnectionDetails();
   }, [fetchConnectionDetails]);
 
-  return { connectionDetails, refreshConnectionDetails: fetchConnectionDetails };
+  return {
+    connectionDetails,
+    refreshConnectionDetails: fetchConnectionDetails,
+  };
 }

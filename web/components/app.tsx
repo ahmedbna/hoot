@@ -3,7 +3,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Room, RoomEvent } from 'livekit-client';
 import { motion } from 'motion/react';
-import { RoomAudioRenderer, RoomContext, StartAudio } from '@livekit/components-react';
+import {
+  RoomAudioRenderer,
+  RoomContext,
+  StartAudio,
+} from '@livekit/components-react';
 import { toastAlert } from '@/components/alert-toast';
 import { SessionView } from '@/components/session-view';
 import { Toaster } from '@/components/ui/sonner';
@@ -21,7 +25,8 @@ interface AppProps {
 export function App({ appConfig }: AppProps) {
   const room = useMemo(() => new Room(), []);
   const [sessionStarted, setSessionStarted] = useState(false);
-  const { connectionDetails, refreshConnectionDetails } = useConnectionDetails();
+  const { connectionDetails, refreshConnectionDetails } =
+    useConnectionDetails();
 
   useEffect(() => {
     const onDisconnected = () => {
@@ -49,7 +54,10 @@ export function App({ appConfig }: AppProps) {
         room.localParticipant.setMicrophoneEnabled(true, undefined, {
           preConnectBuffer: appConfig.isPreConnectBufferEnabled,
         }),
-        room.connect(connectionDetails.serverUrl, connectionDetails.participantToken),
+        room.connect(
+          connectionDetails.serverUrl,
+          connectionDetails.participantToken
+        ),
       ]).catch((error) => {
         if (aborted) {
           // Once the effect has cleaned up after itself, drop any errors
@@ -70,28 +78,37 @@ export function App({ appConfig }: AppProps) {
       aborted = true;
       room.disconnect();
     };
-  }, [room, sessionStarted, connectionDetails, appConfig.isPreConnectBufferEnabled]);
+  }, [
+    room,
+    sessionStarted,
+    connectionDetails,
+    appConfig.isPreConnectBufferEnabled,
+  ]);
 
   const { startButtonText } = appConfig;
 
   return (
     <>
       <MotionWelcome
-        key="welcome"
+        key='welcome'
         startButtonText={startButtonText}
         onStartCall={() => setSessionStarted(true)}
         disabled={sessionStarted}
         initial={{ opacity: 0 }}
         animate={{ opacity: sessionStarted ? 0 : 1 }}
-        transition={{ duration: 0.5, ease: 'linear', delay: sessionStarted ? 0 : 0.5 }}
+        transition={{
+          duration: 0.5,
+          ease: 'linear',
+          delay: sessionStarted ? 0 : 0.5,
+        }}
       />
 
       <RoomContext.Provider value={room}>
         <RoomAudioRenderer />
-        <StartAudio label="Start Audio" />
+        <StartAudio label='Start Audio' />
         {/* --- */}
         <MotionSessionView
-          key="session-view"
+          key='session-view'
           appConfig={appConfig}
           disabled={!sessionStarted}
           sessionStarted={sessionStarted}

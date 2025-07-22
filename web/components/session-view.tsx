@@ -19,7 +19,11 @@ import type { AppConfig } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
 function isAgentAvailable(agentState: AgentState) {
-  return agentState == 'listening' || agentState == 'thinking' || agentState == 'speaking';
+  return (
+    agentState == 'listening' ||
+    agentState == 'thinking' ||
+    agentState == 'speaking'
+  );
 }
 
 interface SessionViewProps {
@@ -57,13 +61,13 @@ export const SessionView = ({
           toastAlert({
             title: 'Session ended',
             description: (
-              <p className="w-full">
+              <p className='w-full'>
                 {reason}
                 <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://docs.livekit.io/agents/start/voice-ai/"
-                  className="whitespace-nowrap underline"
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  href='https://docs.livekit.io/agents/start/voice-ai/'
+                  className='whitespace-nowrap underline'
                 >
                   See quickstart guide
                 </a>
@@ -79,7 +83,8 @@ export const SessionView = ({
     }
   }, [agentState, sessionStarted, room]);
 
-  const { supportsChatInput, supportsVideoInput, supportsScreenShare } = appConfig;
+  const { supportsChatInput, supportsVideoInput, supportsScreenShare } =
+    appConfig;
   const capabilities = {
     supportsChatInput,
     supportsVideoInput,
@@ -99,10 +104,12 @@ export const SessionView = ({
       <ChatMessageView
         className={cn(
           'mx-auto min-h-svh w-full max-w-2xl px-3 pt-32 pb-40 transition-[opacity,translate] duration-300 ease-out md:px-0 md:pt-36 md:pb-48',
-          chatOpen ? 'translate-y-0 opacity-100 delay-200' : 'translate-y-20 opacity-0'
+          chatOpen
+            ? 'translate-y-0 opacity-100 delay-200'
+            : 'translate-y-20 opacity-0'
         )}
       >
-        <div className="space-y-3 whitespace-pre-wrap">
+        <div className='space-y-3 whitespace-pre-wrap'>
           <AnimatePresence>
             {messages.map((message: ReceivedChatMessage) => (
               <motion.div
@@ -119,24 +126,28 @@ export const SessionView = ({
         </div>
       </ChatMessageView>
 
-      <div className="bg-background mp-12 fixed top-0 right-0 left-0 h-32 md:h-36">
+      <div className='bg-background mp-12 fixed top-0 right-0 left-0 h-32 md:h-36'>
         {/* skrim */}
-        <div className="from-background absolute bottom-0 left-0 h-12 w-full translate-y-full bg-gradient-to-b to-transparent" />
+        <div className='from-background absolute bottom-0 left-0 h-12 w-full translate-y-full bg-gradient-to-b to-transparent' />
       </div>
 
       <MediaTiles chatOpen={chatOpen} />
 
-      <div className="bg-background fixed right-0 bottom-0 left-0 z-50 px-3 pt-2 pb-3 md:px-12 md:pb-12">
+      <div className='bg-background fixed right-0 bottom-0 left-0 z-50 px-3 pt-2 pb-3 md:px-12 md:pb-12'>
         <motion.div
-          key="control-bar"
+          key='control-bar'
           initial={{ opacity: 0, translateY: '100%' }}
           animate={{
             opacity: sessionStarted ? 1 : 0,
             translateY: sessionStarted ? '0%' : '100%',
           }}
-          transition={{ duration: 0.3, delay: sessionStarted ? 0.5 : 0, ease: 'easeOut' }}
+          transition={{
+            duration: 0.3,
+            delay: sessionStarted ? 0.5 : 0,
+            ease: 'easeOut',
+          }}
         >
-          <div className="relative z-10 mx-auto w-full max-w-2xl">
+          <div className='relative z-10 mx-auto w-full max-w-2xl'>
             {appConfig.isPreConnectBufferEnabled && (
               <motion.div
                 initial={{ opacity: 0 }}
@@ -151,10 +162,12 @@ export const SessionView = ({
                 aria-hidden={messages.length > 0}
                 className={cn(
                   'absolute inset-x-0 -top-12 text-center',
-                  sessionStarted && messages.length === 0 && 'pointer-events-none'
+                  sessionStarted &&
+                    messages.length === 0 &&
+                    'pointer-events-none'
                 )}
               >
-                <p className="animate-text-shimmer inline-block !bg-clip-text text-sm font-semibold text-transparent">
+                <p className='animate-text-shimmer inline-block !bg-clip-text text-sm font-semibold text-transparent'>
                   Agent is listening, ask it a question
                 </p>
               </motion.div>
@@ -167,7 +180,7 @@ export const SessionView = ({
             />
           </div>
           {/* skrim */}
-          <div className="from-background border-background absolute top-0 left-0 h-12 w-full -translate-y-full bg-gradient-to-t to-transparent" />
+          <div className='from-background border-background absolute top-0 left-0 h-12 w-full -translate-y-full bg-gradient-to-t to-transparent' />
         </motion.div>
       </div>
     </main>

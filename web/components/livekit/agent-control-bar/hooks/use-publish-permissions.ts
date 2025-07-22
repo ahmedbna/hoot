@@ -29,7 +29,9 @@ export function usePublishPermissions(): PublishPermissions {
     return (
       !!localPermissions?.canPublish &&
       (localPermissions.canPublishSources.length === 0 ||
-        localPermissions.canPublishSources.includes(trackSourceToProtocol(source)))
+        localPermissions.canPublishSources.includes(
+          trackSourceToProtocol(source)
+        ))
     );
   };
 

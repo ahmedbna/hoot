@@ -15,7 +15,9 @@ export default function useChatAndTranscription() {
 
   const mergedTranscriptions = useMemo(() => {
     const merged: Array<ReceivedChatMessage> = [
-      ...transcriptions.map((transcription) => transcriptionToChatMessage(transcription, room)),
+      ...transcriptions.map((transcription) =>
+        transcriptionToChatMessage(transcription, room)
+      ),
       ...chat.chatMessages,
     ];
     return merged.sort((a, b) => a.timestamp - b.timestamp);

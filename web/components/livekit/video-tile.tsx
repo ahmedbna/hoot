@@ -11,7 +11,10 @@ export const VideoTile = ({
   ref,
 }: React.ComponentProps<'div'> & React.ComponentProps<typeof VideoTrack>) => {
   return (
-    <div ref={ref} className={cn('bg-muted overflow-hidden rounded-md', className)}>
+    <div
+      ref={ref}
+      className={cn('bg-muted overflow-hidden rounded-md', className)}
+    >
       <MotionVideoTrack
         trackRef={trackRef}
         width={trackRef?.publication.dimensions?.width ?? 0}

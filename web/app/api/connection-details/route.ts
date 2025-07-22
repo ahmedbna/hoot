@@ -1,5 +1,9 @@
 import { NextResponse } from 'next/server';
-import { AccessToken, type AccessTokenOptions, type VideoGrant } from 'livekit-server-sdk';
+import {
+  AccessToken,
+  type AccessTokenOptions,
+  type VideoGrant,
+} from 'livekit-server-sdk';
 
 // NOTE: you are expected to define the following environment variables in `.env.local`:
 const API_KEY = process.env.LIVEKIT_API_KEY;
@@ -56,7 +60,10 @@ export async function GET() {
   }
 }
 
-function createParticipantToken(userInfo: AccessTokenOptions, roomName: string) {
+function createParticipantToken(
+  userInfo: AccessTokenOptions,
+  roomName: string
+) {
   const at = new AccessToken(API_KEY, API_SECRET, {
     ...userInfo,
     ttl: '15m',

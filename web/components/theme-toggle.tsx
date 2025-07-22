@@ -45,14 +45,15 @@ interface ThemeToggleProps {
 }
 
 export function ApplyThemeScript() {
-  return <script id="theme-script">{THEME_SCRIPT}</script>;
+  return <script id='theme-script'>{THEME_SCRIPT}</script>;
 }
 
 export function ThemeToggle({ className }: ThemeToggleProps) {
   const [theme, setTheme] = useState<ThemeMode | undefined>(undefined);
 
   useEffect(() => {
-    const storedTheme = (localStorage.getItem(THEME_STORAGE_KEY) as ThemeMode) ?? 'system';
+    const storedTheme =
+      (localStorage.getItem(THEME_STORAGE_KEY) as ThemeMode) ?? 'system';
 
     setTheme(storedTheme);
   }, []);
@@ -69,30 +70,42 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
         className
       )}
     >
-      <span className="sr-only">Color scheme toggle</span>
+      <span className='sr-only'>Color scheme toggle</span>
       <button
-        type="button"
+        type='button'
         onClick={() => handleThemeChange('dark')}
-        className="cursor-pointer p-1 pl-1.5"
+        className='cursor-pointer p-1 pl-1.5'
       >
-        <span className="sr-only">Enable dark color scheme</span>
-        <MoonIcon size={16} weight="bold" className={cn(theme !== 'dark' && 'opacity-25')} />
+        <span className='sr-only'>Enable dark color scheme</span>
+        <MoonIcon
+          size={16}
+          weight='bold'
+          className={cn(theme !== 'dark' && 'opacity-25')}
+        />
       </button>
       <button
-        type="button"
+        type='button'
         onClick={() => handleThemeChange('light')}
-        className="cursor-pointer px-1.5 py-1"
+        className='cursor-pointer px-1.5 py-1'
       >
-        <span className="sr-only">Enable light color scheme</span>
-        <SunIcon size={16} weight="bold" className={cn(theme !== 'light' && 'opacity-25')} />
+        <span className='sr-only'>Enable light color scheme</span>
+        <SunIcon
+          size={16}
+          weight='bold'
+          className={cn(theme !== 'light' && 'opacity-25')}
+        />
       </button>
       <button
-        type="button"
+        type='button'
         onClick={() => handleThemeChange('system')}
-        className="cursor-pointer p-1 pr-1.5"
+        className='cursor-pointer p-1 pr-1.5'
       >
-        <span className="sr-only">Enable system color scheme</span>
-        <MonitorIcon size={16} weight="bold" className={cn(theme !== 'system' && 'opacity-25')} />
+        <span className='sr-only'>Enable system color scheme</span>
+        <MonitorIcon
+          size={16}
+          weight='bold'
+          className={cn(theme !== 'system' && 'opacity-25')}
+        />
       </button>
     </div>
   );

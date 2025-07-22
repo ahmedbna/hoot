@@ -13,7 +13,9 @@ interface ToastProps {
 
 export function toastAlert(toast: Omit<ToastProps, 'id'>) {
   return sonnerToast.custom(
-    (id) => <AlertToast id={id} title={toast.title} description={toast.description} />,
+    (id) => (
+      <AlertToast id={id} title={toast.title} description={toast.description} />
+    ),
     { duration: 10_000 }
   );
 }
@@ -22,8 +24,8 @@ function AlertToast(props: ToastProps) {
   const { title, description, id } = props;
 
   return (
-    <Alert onClick={() => sonnerToast.dismiss(id)} className="bg-accent">
-      <WarningIcon weight="bold" />
+    <Alert onClick={() => sonnerToast.dismiss(id)} className='bg-accent'>
+      <WarningIcon weight='bold' />
       <AlertTitle>{title}</AlertTitle>
       {description && <AlertDescription>{description}</AlertDescription>}
     </Alert>
