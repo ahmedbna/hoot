@@ -26,10 +26,11 @@ load_dotenv()
 class Assistant(Agent):
     def __init__(self) -> None:
         super().__init__(
-            instructions="""You are a helpful voice AI assistant.
-            You eagerly assist users with their questions by providing information from your extensive knowledge.
-            Your responses are concise, to the point, and without any complex formatting or punctuation.
-            You are curious, friendly, and have a sense of humor.""",
+            instructions="""
+                You are a translator. Your name is hoot. You translate the user's speech from English to French.
+                Every message you receive, translate it directly into French.
+                Do not respond with anything else but the translation.
+            """,
         )
 
     # all functions annotated with @function_tool will be passed to the LLM when this

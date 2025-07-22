@@ -23,7 +23,7 @@ This starter app is compatible with any [custom web/mobile frontend](https://doc
 Clone the repository and install dependencies to a virtual environment:
 
 ```console
-cd hoot-ai-agent
+cd server
 uv sync
 ```
 
