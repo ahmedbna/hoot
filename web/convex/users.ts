@@ -70,31 +70,6 @@ export const getUserInfo = internalQuery({
   },
 });
 
-/**
- * Updates the "updated" timestamp for a given userId's presence in a roomId.
- *
- * @param roomId - The location associated with the presence data. Examples:
- * page, chat channel, game instance.
- * @param userId - The userId associated with the presence data.
- */
-export const heartbeat = mutation({
-  handler: async (ctx) => {
-    const userId = await getAuthUserId(ctx);
-
-    if (!userId) {
-      throw new Error('Not authenticated');
-    }
-
-    const user = await ctx.db.get(userId);
-
-    if (!user) {
-      throw new Error('Not dound!');
-    }
-
-    await ctx.db.patch(user._id, { heartbeat: Date.now() });
-  },
-});
-
 export const getId = query({
   handler: async (ctx) => {
     const userId = await getAuthUserId(ctx);
