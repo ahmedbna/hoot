@@ -38,7 +38,7 @@ export default defineSchema({
     .index('by_user_language', ['userId', 'learningLanguage']),
 
   courses: defineTable({
-    languageId: v.id('languages'),
+    languageId: v.id('languages'), // Learning language ID
     order: v.number(), // Order within the level
     title: v.string(),
     description: v.string(),
@@ -57,9 +57,7 @@ export default defineSchema({
     vocabulary: v.optional(v.string()), // Vocabulary words for the lesson
     grammar: v.optional(v.string()), // Grammar points covered
     estimatedDuration: v.optional(v.number()), // Duration in minutes
-  })
-    .index('by_course', ['courseId'])
-    .index('by_course_order', ['courseId', 'order']),
+  }).index('by_course', ['courseId']),
 
   lessonSessions: defineTable({
     userId: v.id('users'),

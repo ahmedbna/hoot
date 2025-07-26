@@ -1,16 +1,11 @@
 import { Geist, Geist_Mono } from 'next/font/google';
-import { headers } from 'next/headers';
 import { ConvexAuthNextjsServerProvider } from '@convex-dev/auth/nextjs/server';
-import { ApplyThemeScript, ThemeToggle } from '@/components/theme-toggle';
-import { getAppConfig } from '@/lib/utils';
 import ConvexProvider from '@/providers/convex-provider';
-import './globals.css';
-
-import './globals.css';
 import { Metadata } from 'next';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { ThemeProvider } from '@/providers/theme-provider';
 import { Toaster } from 'sonner';
+import './globals.css';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -24,22 +19,22 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: 'BNA AI CAD',
-    template: 'BNA | %s',
+    default: 'Orca',
+    template: 'Orca | %s',
   },
-  description: 'AI CAD, Design Smarter, Faster, Together',
-  metadataBase: new URL('https://cad.ahmedbna.com'),
+  description: 'Acquire new language',
+  metadataBase: new URL('https://hoot.ahmedbna.com'),
   openGraph: {
-    title: 'BNA',
-    description: 'BNA AI CAD',
-    url: 'https://cad.ahmedbna.com',
-    siteName: 'BNA',
+    title: 'Orca',
+    description: 'Orca',
+    url: 'https://hoot.ahmedbna.com',
+    siteName: 'Orca',
     images: [
       {
         url: '/android-chrome-512x512.png',
         width: 800,
         height: 800,
-        alt: 'BNA',
+        alt: 'Orca',
       },
     ],
     locale: 'en_US',
@@ -47,8 +42,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'BNA',
-    description: 'BNA AI CAD',
+    title: 'Orca',
+    description: 'Orca',
     images: ['/android-chrome-512x512.png'],
   },
   icons: {
@@ -62,7 +57,7 @@ export const metadata: Metadata = {
   },
   appLinks: {
     web: {
-      url: 'https://cad.ahmedbna.com/',
+      url: 'https://hoot.ahmedbna.com/',
       should_fallback: true,
     },
   },
@@ -76,17 +71,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const hdrs = await headers();
-  const { accent, accentDark, pageTitle, pageDescription } =
-    await getAppConfig(hdrs);
-
-  const styles = [
-    accent ? `:root { --primary: ${accent}; }` : '',
-    accentDark ? `.dark { --primary: ${accentDark}; }` : '',
-  ]
-    .filter(Boolean)
-    .join('\n');
-
   return (
     <ConvexAuthNextjsServerProvider>
       <html lang='en' suppressHydrationWarning>
@@ -100,7 +84,7 @@ export default async function RootLayout({
               enableSystem
               attribute='class'
               defaultTheme='dark'
-              storageKey='bna-ai-cad-theme'
+              storageKey='bna-ai-orca-theme'
               disableTransitionOnChange
             >
               <TooltipProvider>{children}</TooltipProvider>

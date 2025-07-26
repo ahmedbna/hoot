@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useQuery } from 'convex/react';
+import { useMutation, useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { Doc } from '@/convex/_generated/dataModel';
 
@@ -15,16 +15,23 @@ interface LanguageSelectionProps {
 
 export function LanguageSelection({
   type,
-  selectedLanguage,
-  excludeLanguage,
   onSelect,
+  selectedLanguage,
   onNext,
 }: LanguageSelectionProps) {
   const languages = useQuery(api.languages.getAll);
 
-  const availableLanguages = excludeLanguage
-    ? languages?.filter((lang) => lang.code !== excludeLanguage.code)
-    : languages;
+  // const availableLanguages = excludeLanguage
+  //   ? languages?.filter((lang) => lang.code !== excludeLanguage.code)
+  //   : languages;
+
+  const nativeLanguages = languages?.filter(
+    (lang) => lang.code === 'ar' || lang.code === 'en'
+  );
+  const learningLanguages = languages?.filter((lang) => lang.code === 'de');
+
+  const availableLanguages =
+    type === 'native' ? nativeLanguages : learningLanguages;
 
   const title =
     type === 'native'

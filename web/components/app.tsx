@@ -14,15 +14,21 @@ import { Toaster } from '@/components/ui/sonner';
 import { Welcome } from '@/components/welcome';
 import useConnectionDetails from '@/hooks/useConnectionDetails';
 import type { AppConfig } from '@/lib/types';
+import { Id } from '@/convex/_generated/dataModel';
+import { useQuery } from 'convex/react';
+import { api } from '@/convex/_generated/api';
 
 const MotionWelcome = motion.create(Welcome);
 const MotionSessionView = motion.create(SessionView);
 
 interface AppProps {
+  lessonId: Id<'lessons'>;
   appConfig: AppConfig;
 }
 
-export function App({ appConfig }: AppProps) {
+export function App({ appConfig, lessonId }: AppProps) {
+  const lesson = useQuery(api.lessons.get, { lessonId });
+
   const room = useMemo(() => new Room(), []);
   const [sessionStarted, setSessionStarted] = useState(false);
   const { connectionDetails, refreshConnectionDetails } =

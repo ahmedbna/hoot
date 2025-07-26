@@ -81,7 +81,7 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
   };
 
   return (
-    <div className='min-h-screen bg-gradient-background'>
+    <div className='flex items-center justify-center h-screen'>
       <div className='container mx-auto px-4 py-8'>
         {/* Progress Bar */}
         <div className='max-w-md mx-auto mb-8'>
