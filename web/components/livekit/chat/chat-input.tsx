@@ -53,7 +53,7 @@ export function ChatInput({
       <Button
         size='sm'
         type='submit'
-        variant={isDisabled ? 'secondary' : 'primary'}
+        variant={isDisabled ? 'secondary' : 'default'}
         disabled={isDisabled}
         className='font-mono'
       >
