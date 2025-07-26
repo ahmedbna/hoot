@@ -1,5 +1,4 @@
-import { Public_Sans } from 'next/font/google';
-import localFont from 'next/font/local';
+import { Geist, Geist_Mono } from 'next/font/google';
 import { headers } from 'next/headers';
 import { ConvexAuthNextjsServerProvider } from '@convex-dev/auth/nextjs/server';
 import { ApplyThemeScript, ThemeToggle } from '@/components/theme-toggle';
@@ -7,42 +6,76 @@ import { getAppConfig } from '@/lib/utils';
 import ConvexProvider from '@/providers/convex-provider';
 import './globals.css';
 
-const publicSans = Public_Sans({
-  variable: '--font-public-sans',
+import './globals.css';
+import { Metadata } from 'next';
+import { TooltipProvider } from '@/components/ui/tooltip';
+import { ThemeProvider } from '@/providers/theme-provider';
+import { Toaster } from 'sonner';
+
+const geistSans = Geist({
+  variable: '--font-geist-sans',
   subsets: ['latin'],
 });
 
-const commitMono = localFont({
-  src: [
-    {
-      path: './fonts/CommitMono-400-Regular.otf',
-      weight: '400',
-      style: 'normal',
-    },
-    {
-      path: './fonts/CommitMono-700-Regular.otf',
-      weight: '700',
-      style: 'normal',
-    },
-    {
-      path: './fonts/CommitMono-400-Italic.otf',
-      weight: '400',
-      style: 'italic',
-    },
-    {
-      path: './fonts/CommitMono-700-Italic.otf',
-      weight: '700',
-      style: 'italic',
-    },
-  ],
-  variable: '--font-commit-mono',
+const geistMono = Geist_Mono({
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
-interface RootLayoutProps {
-  children: React.ReactNode;
-}
+export const metadata: Metadata = {
+  title: {
+    default: 'BNA AI CAD',
+    template: 'BNA | %s',
+  },
+  description: 'AI CAD, Design Smarter, Faster, Together',
+  metadataBase: new URL('https://cad.ahmedbna.com'),
+  openGraph: {
+    title: 'BNA',
+    description: 'BNA AI CAD',
+    url: 'https://cad.ahmedbna.com',
+    siteName: 'BNA',
+    images: [
+      {
+        url: '/android-chrome-512x512.png',
+        width: 800,
+        height: 800,
+        alt: 'BNA',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'BNA',
+    description: 'BNA AI CAD',
+    images: ['/android-chrome-512x512.png'],
+  },
+  icons: {
+    icon: '/apple-touch-icon.png',
+    shortcut: '/apple-touch-icon.png',
+    apple: '/apple-touch-icon.png',
+    other: {
+      rel: 'apple-touch-icon-precomposed',
+      url: '/apple-touch-icon.png',
+    },
+  },
+  appLinks: {
+    web: {
+      url: 'https://cad.ahmedbna.com/',
+      should_fallback: true,
+    },
+  },
+  verification: {
+    google: 'google-site-verification=id',
+  },
+};
 
-export default async function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   const hdrs = await headers();
   const { accent, accentDark, pageTitle, pageDescription } =
     await getAppConfig(hdrs);
@@ -56,24 +89,25 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 
   return (
     <ConvexAuthNextjsServerProvider>
-      <html lang='en' suppressHydrationWarning className='scroll-smooth'>
-        <head>
-          {styles && <style>{styles}</style>}
-          <title>{pageTitle}</title>
-          <meta
-            name='description'
-            content={pageDescription + '\n\nBuilt with LiveKit Agents.'}
-          />
-          <ApplyThemeScript />
-        </head>
-        <body
-          className={`${publicSans.variable} ${commitMono.variable} overflow-x-hidden antialiased`}
-        >
-          <ConvexProvider>{children}</ConvexProvider>
-          <div className='group fixed bottom-0 left-1/2 z-50 mb-2 -translate-x-1/2'>
-            <ThemeToggle className='translate-y-20 transition-transform delay-150 duration-300 group-hover:translate-y-0' />
-          </div>
-        </body>
+      <html lang='en' suppressHydrationWarning>
+        <head />
+
+        <ConvexProvider>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          >
+            <ThemeProvider
+              enableSystem
+              attribute='class'
+              defaultTheme='dark'
+              storageKey='bna-ai-cad-theme'
+              disableTransitionOnChange
+            >
+              <TooltipProvider>{children}</TooltipProvider>
+              <Toaster />
+            </ThemeProvider>
+          </body>
+        </ConvexProvider>
       </html>
     </ConvexAuthNextjsServerProvider>
   );

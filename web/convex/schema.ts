@@ -15,7 +15,6 @@ export default defineSchema({
     phone: v.optional(v.string()),
     emailVerificationTime: v.optional(v.float64()),
     phoneVerificationTime: v.optional(v.float64()),
-    nativeLanguage: v.optional(v.id('languages')), // User's native language
   }).index('email', ['email']),
 
   languages: defineTable({
@@ -26,6 +25,17 @@ export default defineSchema({
   })
     .index('by_name', ['name'])
     .index('by_code', ['code']),
+
+  enrolls: defineTable({
+    userId: v.id('users'),
+    nativeLanguage: v.id('languages'), // User's native language
+    learningLanguage: v.id('languages'), // Language they are learning
+    currentLessonId: v.optional(v.id('lessons')), // Current lesson progress
+    completedLessons: v.optional(v.array(v.id('lessons'))), // Completed lessons
+    totalTimeSpent: v.optional(v.number()), // Total time in minutes
+  })
+    .index('by_user', ['userId'])
+    .index('by_user_language', ['userId', 'learningLanguage']),
 
   courses: defineTable({
     languageId: v.id('languages'),
@@ -50,18 +60,6 @@ export default defineSchema({
   })
     .index('by_course', ['courseId'])
     .index('by_course_order', ['courseId', 'order']),
-
-  students: defineTable({
-    userId: v.id('users'),
-    courseId: v.id('courses'),
-    enrolledAt: v.number(), // Timestamp
-    currentLessonId: v.optional(v.id('lessons')), // Current lesson progress
-    completedLessons: v.array(v.id('lessons')), // Completed lessons
-    totalTimeSpent: v.optional(v.number()), // Total time in minutes
-  })
-    .index('by_user', ['userId'])
-    .index('by_course', ['courseId'])
-    .index('by_user_course', ['userId', 'courseId']),
 
   lessonSessions: defineTable({
     userId: v.id('users'),
