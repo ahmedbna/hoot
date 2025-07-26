@@ -17,6 +17,7 @@ export const revalidate = 0;
 export type LessonData = {
   lessonId: string;
   courseId: string;
+  title: string;
   targetLanguage: string;
   languageCode: string;
   content: string;
@@ -69,36 +70,64 @@ export async function POST(request: NextRequest) {
     // Create room service client for room management
     const roomService = new RoomServiceClient(LIVEKIT_URL, API_KEY, API_SECRET);
 
-    // Prepare room metadata with lesson information
+    // Prepare comprehensive room metadata with lesson information
     const roomMetadata = JSON.stringify({
+      // Lesson Information
       lessonId: lessonData.lessonId,
       courseId: lessonData.courseId,
+      title: lessonData.title,
       targetLanguage: lessonData.targetLanguage,
       languageCode: lessonData.languageCode,
       content: lessonData.content,
       objectives: lessonData.objectives,
       vocabulary: lessonData.vocabulary,
-      grammar: lessonData.grammar,
+      grammar: lessonData.grammar || [],
       nativeLanguage: lessonData.nativeLanguage,
-      estimatedDuration: lessonData.estimatedDuration,
+      estimatedDuration: lessonData.estimatedDuration || 10,
+
+      // Session Information
       userId,
       sessionId,
+      participantName,
       createdAt: Date.now(),
+
+      // Teaching Configuration
+      teachingMode: 'interactive',
+      enablePronunciationCheck: true,
+      enableRealTimeFeedback: true,
+      maxPronunciationAttempts: 3,
+      passingScore: 6.0,
+
+      // AI Agent Configuration
+      agentPersonality: 'encouraging_teacher',
+      voiceSettings: {
+        speed: 'normal',
+        clarity: 'high',
+        language: lessonData.languageCode,
+      },
     });
 
     try {
-      // Create or update room with metadata
+      // Create room with comprehensive settings
       await roomService.createRoom({
         name: roomName,
         metadata: roomMetadata,
-        // Set room timeout based on estimated duration or default to 1 hour
-        emptyTimeout: (lessonData.estimatedDuration || 60) * 60 + 300, // Add 5 minutes buffer
+        // Set room timeout based on estimated duration plus buffer
+        emptyTimeout: Math.max(
+          (lessonData.estimatedDuration || 10) * 60 + 600,
+          900
+        ), // Min 15 minutes
         maxParticipants: 2, // User + AI agent
+        // Enable transcription for better learning experience
+        nodeId: '', // Let LiveKit choose the best node
       });
+
+      console.log(`Created room ${roomName} for lesson ${lessonData.lessonId}`);
     } catch (error) {
       // Room might already exist, try to update metadata
       try {
         await roomService.updateRoomMetadata(roomName, roomMetadata);
+        console.log(`Updated metadata for existing room ${roomName}`);
       } catch (updateError) {
         console.warn('Failed to create or update room:', error);
         // Continue anyway, the agent can still work without room metadata
@@ -114,6 +143,9 @@ export async function POST(request: NextRequest) {
           userId,
           lessonId: lessonData.lessonId,
           nativeLanguage: lessonData.nativeLanguage,
+          targetLanguage: lessonData.targetLanguage,
+          sessionType: 'language_lesson',
+          isStudent: true,
         }),
       },
       roomName
@@ -150,29 +182,12 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Also support GET for backward compatibility (with limited functionality)
+// Enhanced GET endpoint for testing
 export async function GET() {
   try {
     if (!LIVEKIT_URL || !API_KEY || !API_SECRET) {
       throw new Error('Missing required environment variables');
     }
-
-    // Default lesson data for testing
-    const defaultLessonData: LessonData = {
-      lessonId: 'default_lesson',
-      courseId: 'default_course',
-      targetLanguage: 'French',
-      languageCode: 'fr',
-      content: 'Basic greetings and introductions in French',
-      objectives: [
-        'Learn basic French greetings',
-        'Practice introducing yourself',
-        'Understand formal vs informal speech',
-      ],
-      vocabulary: ['bonjour', 'bonsoir', 'au revoir', 'merci'],
-      nativeLanguage: 'English',
-      estimatedDuration: 15,
-    };
 
     const userId = `guest_${Math.floor(Math.random() * 10000)}`;
     const sessionId = `session_${Date.now()}`;
@@ -183,6 +198,9 @@ export async function GET() {
       {
         identity: participantIdentity,
         name: 'Guest Student',
+        metadata: JSON.stringify({
+          userId,
+        }),
       },
       roomName
     );
@@ -224,7 +242,7 @@ function createParticipantToken(
 
   const at = new AccessToken(API_KEY, API_SECRET, {
     ...userInfo,
-    ttl: '15m',
+    ttl: '10m',
   });
 
   const grant: VideoGrant = {
@@ -233,6 +251,8 @@ function createParticipantToken(
     canPublish: true,
     canPublishData: true,
     canSubscribe: true,
+    // Additional permissions for language learning
+    canUpdateOwnMetadata: true,
   };
 
   at.addGrant(grant);
