@@ -26,11 +26,8 @@ export function BirthdaySelection({
     <div className='space-y-6'>
       <div className='text-center space-y-4'>
         <h1 className='text-3xl font-bold text-foreground'>
-          When's your birthday? 🎂
+          {`When's your birthday? 🎂`}
         </h1>
-        <p className='text-muted-foreground text-lg'>
-          We use this to create age-appropriate content
-        </p>
       </div>
 
       <Card className='p-6 max-w-md mx-auto'>
