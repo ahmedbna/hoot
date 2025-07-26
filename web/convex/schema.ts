@@ -52,11 +52,12 @@ export default defineSchema({
     courseId: v.id('courses'),
     order: v.number(), // Order within the course
     title: v.string(), // Lesson title
-    content: v.string(), // Detailed lesson content for the AI
+    description: v.string(), // Lesson description
     objectives: v.array(v.string()), // Learning objectives
-    vocabulary: v.optional(v.string()), // Vocabulary words for the lesson
-    grammar: v.optional(v.string()), // Grammar points covered
-    estimatedDuration: v.optional(v.number()), // Duration in minutes
+    vocabulary: v.array(v.string()), // Vocabulary words for the lesson
+    phrases: v.array(v.string()), // Key phrases to learn
+    grammar: v.array(v.string()), // Grammar points covered
+    duration: v.number(), // Duration in minutes
   }).index('by_course', ['courseId']),
 
   lessonSessions: defineTable({

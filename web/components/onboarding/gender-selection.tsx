@@ -22,7 +22,7 @@ export function GenderSelection({ onSelect }: GenderSelectionProps) {
     <div className='space-y-6'>
       <div className='text-center space-y-4'>
         <h1 className='text-3xl font-bold text-foreground'>
-          Let's get to know you! 🎯
+          {`Let's get to know you! 🎯`}
         </h1>
         <p className='text-muted-foreground text-lg'>
           This helps us personalize your learning experience
