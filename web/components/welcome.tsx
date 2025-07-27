@@ -1,14 +1,15 @@
 import { Button } from '@/components/ui/button';
+import { Doc } from '@/convex/_generated/dataModel';
 
 interface WelcomeProps {
   disabled: boolean;
-  startButtonText: string;
+  lesson: any;
   onStartCall: () => void;
 }
 
 export const Welcome = ({
   disabled,
-  startButtonText,
+  lesson,
   onStartCall,
   ref,
 }: React.ComponentProps<'div'> & WelcomeProps) => {
@@ -36,7 +37,7 @@ export const Welcome = ({
         Chat live with your voice AI agent
       </p>
       <Button size='lg' onClick={onStartCall} className='mt-6 w-64 font-mono'>
-        {startButtonText}
+        {`Start ${lesson.title} Lesson`}
       </Button>
       <p className='text-fg1 m fixed bottom-5 left-1/2 w-full max-w-prose -translate-x-1/2 pt-1 text-xs leading-5 font-normal text-pretty md:text-sm'>
         Need help getting set up? Check out the{' '}

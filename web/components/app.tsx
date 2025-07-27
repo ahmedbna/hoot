@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { Room, RoomEvent } from 'livekit-client';
-import { motion } from 'motion/react';
 import {
   RoomAudioRenderer,
   RoomContext,
@@ -10,16 +9,12 @@ import {
 } from '@livekit/components-react';
 import { toastAlert } from '@/components/alert-toast';
 import { SessionView } from '@/components/session-view';
-import { Toaster } from '@/components/ui/sonner';
 import { Welcome } from '@/components/welcome';
 import useConnectionDetails from '@/hooks/useConnectionDetails';
 import type { AppConfig } from '@/lib/types';
 import { Id } from '@/convex/_generated/dataModel';
 import { useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
-
-const MotionWelcome = motion.create(Welcome);
-const MotionSessionView = motion.create(SessionView);
 
 interface AppProps {
   lessonId: Id<'lessons'>;
@@ -91,44 +86,56 @@ export function App({ appConfig, lessonId }: AppProps) {
     appConfig.isPreConnectBufferEnabled,
   ]);
 
-  const { startButtonText } = appConfig;
+  if (lesson === undefined) {
+    return (
+      <div className='flex h-full items-center justify-center'>
+        <p className='text-lg'>Loading...</p>
+      </div>
+    );
+  }
+
+  if (lesson === null) {
+    return (
+      <div className='flex h-full items-center justify-center'>
+        <p className='text-lg'>Lesson not found</p>
+      </div>
+    );
+  }
+
+  const lessonDetails = {
+    title: lesson.title,
+    description: lesson.description,
+    objectives: lesson.objectives,
+    vocabulary: lesson.vocabulary,
+    phrases: lesson.phrases,
+    grammar: lesson.grammar,
+    duration: lesson.duration,
+    learningLanguage: lesson.enroll.learningLanguage,
+    nativeLanguage: lesson.enroll.nativeLanguage,
+  };
 
   return (
     <>
-      <MotionWelcome
-        key='welcome'
-        startButtonText={startButtonText}
-        onStartCall={() => setSessionStarted(true)}
-        disabled={sessionStarted}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: sessionStarted ? 0 : 1 }}
-        transition={{
-          duration: 0.5,
-          ease: 'linear',
-          delay: sessionStarted ? 0 : 0.5,
-        }}
-      />
+      {sessionStarted ? (
+        <RoomContext.Provider value={room}>
+          <RoomAudioRenderer />
+          <StartAudio label='Start Audio' />
 
-      <RoomContext.Provider value={room}>
-        <RoomAudioRenderer />
-        <StartAudio label='Start Audio' />
-        {/* --- */}
-        <MotionSessionView
-          key='session-view'
-          appConfig={appConfig}
-          disabled={!sessionStarted}
-          sessionStarted={sessionStarted}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: sessionStarted ? 1 : 0 }}
-          transition={{
-            duration: 0.5,
-            ease: 'linear',
-            delay: sessionStarted ? 0.5 : 0,
-          }}
+          <SessionView
+            key='session-view'
+            appConfig={appConfig}
+            disabled={!sessionStarted}
+            sessionStarted={sessionStarted}
+          />
+        </RoomContext.Provider>
+      ) : (
+        <Welcome
+          key='welcome'
+          lesson={lessonDetails}
+          disabled={sessionStarted}
+          onStartCall={() => setSessionStarted(true)}
         />
-      </RoomContext.Provider>
-
-      <Toaster />
+      )}
     </>
   );
 }

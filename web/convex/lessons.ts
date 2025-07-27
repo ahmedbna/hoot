@@ -19,7 +19,44 @@ export const get = query({
       throw new Error('No lesson found');
     }
 
-    return lesson;
+    const course = await ctx.db.get(lesson.courseId);
+
+    if (!course) {
+      throw new Error('No course found for the lesson');
+    }
+
+    const enroll = await ctx.db
+      .query('enrolls')
+      .withIndex('by_user_language', (q) =>
+        q.eq('userId', userId).eq('learningLanguage', course.languageId)
+      )
+      .first();
+
+    if (!enroll) {
+      throw new Error('User is not enrolled in the course language');
+    }
+
+    const learn = await ctx.db.get(enroll.learningLanguage);
+
+    if (!learn) {
+      throw new Error('Learning language not found');
+    }
+
+    const native = await ctx.db.get(enroll.nativeLanguage);
+
+    if (!native) {
+      throw new Error('Native language not found');
+    }
+
+    return {
+      ...lesson,
+      course,
+      enroll: {
+        ...enroll,
+        learningLanguage: learn.name,
+        nativeLanguage: native.name,
+      },
+    };
   },
 });
 
